@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Fyrirtæki - Uppfletingarvél fyrir fyrirtæki</title>
+    % include('style.html')
+    %include('meta.html')
+</head>
+<body>
+% include('back.html')
+    <h1>Upplýsingar</h1>
+    <article>
+                % for i in results:
+        <div>
+            <h2>Númer: {{i['name']}}</h2>
+            <h2>Kennitala: {{i['sn']}}</h2>
+            % if i['active'] == 0:
+            <h2>Staða: ekki leingur í gangi </h2>
+            %else:
+            <h2>Staða: En á lífi</h2>
+            %end
+            <h2>Heimilisfang: {{i['address']}}</h2>
+        </div>
+        %end
+    </article>
+</body>
+</html>

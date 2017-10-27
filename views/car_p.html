@@ -2,25 +2,27 @@
 <html lang="is">
 <head>
     <meta charset="UTF-8">
-    <title>Car Info</title>
+    <title>Car Info - Uppfletingsr vél fyrir íslensk bíl númer</title>
     % include('style.html')
+    %include('meta.html')
 </head>
 <body>
 % include('back.html')
     <h1>Upplýsingar</h1>
     <article>
+        % for i in results:
         <div>
-            <h2>Númer: {{number}}</h2>
-            <h3>Tegund: {{type}}</h3>
-            <h3>Undirtegund: {{subType}}</h3>
-            <h3>Litur: {{color}}</h3>
-            <h3>Verksmiðjunúmer: {{factoryNumber}}</h3>
-            <h3>Skráningarnúmer: {{registryNumber}}</h3>
-            <h3>Nýskráningardagur: {{registeredAt}}</h3>
-            <h3>Þyngd: {{weight}}</h3>
-            <h3>Staða: {{status}}</h3>
-            <h3>Mengun: {{pollution}}</h3>
-            <h3>Næsta skoðun: {{nextCheck}}</h3>
+            <h2>Númer: {{i['number']}}</h2>
+            <h3>Tegund: {{i['type']}}</h3>
+            <h3>Undirtegund: {{i['subType']}}</h3>
+            <h3>Litur: {{i['color']}}</h3>
+            <h3>Verksmiðjunúmer: {{i['factoryNumber']}}</h3>
+            <h3>Skráningarnúmer: {{i['registryNumber']}}</h3>
+            <h3>Nýskráningardagur: {{i['registeredAt']}}</h3>
+            <h3>Þyngd: {{i['weight']}}</h3>
+            <h3>Staða: {{i['status']}}</h3>
+            <h3>Mengun: {{i['pollution']}}</h3>
+            <h3>Næsta skoðun: {{i['nextCheck']}}</h3>
         </div>
     </article>
 </body>

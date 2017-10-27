@@ -42,19 +42,18 @@ def get_api(id):
 @bottle.post('/<id>')
 def post_api(id):
     if len(list(bottle.request.forms)) > 0:
-        try:
+
             item = [bleach.clean(bottle.request.forms.get(b)) for b in [x for x in bottle.request.forms]]
             print(item)
             if len(item) == 1:
                 info = get_api_data(api[id].format(item[0]))
-                info['results'][0].update({'multi': True, 'id': id})
+                info.update({'multi': True, 'id': id})
             else:
-                info = get_api_data(api[id].format(item[0], item[1]))
-                info['results'][0].update({'multi': True, 'id': id})
-            return bottle.template('{}_p.html'.format(id), info['results'][0])
-        except:
-            print('EXCEPT:--')
-            return bottle.template('error.html', {'multi': True, 'id': id})
+                info = get_api_data(api[id].format(item[1], item[0]))
+                print(info)
+                info.update({'multi': True, 'id': id})
+            return bottle.template('{}_p.html'.format(id), info)
+
     else:
         info = get_api_data(api[id])
         info['results']['multi'] = False
@@ -64,4 +63,4 @@ def post_api(id):
 def static(path):
     return bottle.static_file(path, root='./st')
 
-bottle.run(host='0.0.0.0', port=argv[1], reloader=False)
+bottle.run(host='localhost', port=80, reloader=False)
