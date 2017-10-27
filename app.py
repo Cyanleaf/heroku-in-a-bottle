@@ -50,12 +50,13 @@ def post_api(id):
                 info.update({'multi': True, 'id': id})
             else:
                 info = get_api_data(api[id].format(item[1], item[0]))
-                print(info)
+                print(info['results'][0])
                 info.update({'multi': True, 'id': id})
             return bottle.template('{}_p.html'.format(id), info)
         except:
             print('EXCEPT:--')
             return bottle.template('error.html', {'multi': True, 'id': id})
+
     else:
         info = get_api_data(api[id])
         info['results']['multi'] = False
@@ -66,4 +67,4 @@ def post_api(id):
 def static(path):
     return bottle.static_file(path, root='./st')
 
-bottle.run(host='0.0.0.0', port=argv[1], reloader=False)
+bottle.run(host='localhost', port=80, reloader=False)
