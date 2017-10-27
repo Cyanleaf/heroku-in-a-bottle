@@ -6,7 +6,7 @@ import json
 import urllib.request
 import bleach
 from sys import argv
-api = {'car': 'http://apis.is/car?number={}', 'company': 'http://apis.is/company?{}={}'}
+api = {'car': 'http://apis.is/car?{}={}', 'company': 'http://apis.is/company?{}={}'}
 links = {'car': 'Car', 'company': 'Company'}
 
 
@@ -41,26 +41,17 @@ def get_api(id):
 
 @bottle.post('/<id>')
 def post_api(id):
-    if len(list(bottle.request.forms)) > 0:
-        try:
-            item = [bleach.clean(bottle.request.forms.get(b)) for b in [x for x in bottle.request.forms]]
-            print(item)
-            if len(item) == 1:
-                info = get_api_data(api[id].format(item[0]))
-                info.update({'multi': True, 'id': id})
-            else:
-                info = get_api_data(api[id].format(item[1], item[0]))
-                print(info['results'][0])
-                info.update({'multi': True, 'id': id})
-            return bottle.template('{}_p.html'.format(id), info)
-        except:
-            print('EXCEPT:--')
-            return bottle.template('error.html', {'multi': True, 'id': id})
-
-    else:
-        info = get_api_data(api[id])
-        info['results']['multi'] = False
-        return bottle.template('', info)
+    try:
+        name = bottle.request.forms.name
+        titi = bottle.request.forms.titi
+        print(name, titi)
+        info = get_api_data(api[id].format(titi, name))
+        print(get_api_data(api[id].format(titi, name)))
+        info.update({'multi': True, 'id': id})
+        return bottle.template('{}_p.html'.format(id), info)
+    except:
+        print('EXCEPT:--')
+        return bottle.template('error.html', {'multi': True, 'id': id})
 
 
 @bottle.get('/s/<path:re:.*\.(png|jpg|json|css)>')

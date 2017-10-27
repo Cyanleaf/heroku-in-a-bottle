@@ -9,10 +9,11 @@
 <body>
 % include('back.html')
     <article>
-        <form action="/car" method="post">
+        <form action="/car" method="post" accept-charset="utf-8">
             <fieldset>
                 <legend><h2>Uppfletting í bifreiðaskrá</h2></legend>
-                <label><h3>Bílnúmer:</h3></label><input type="text" name="car" placeholder="AB-123" pattern="^([a-zA-Z]{2,3}[ -]?\d{2,3}|[a-zA-Z0-9]{2,6}|[a-zA-Z0-9]{1,5}[ -]?[a-zA-Z0-9]{1,5})$"><br>
+                <label><h3>Bílnúmer:</h3></label><input type="text" name="name" placeholder="AB-123" pattern="^([a-zA-Z]{2,3}[ -]?\d{2,3}|[a-zA-Z0-9]{2,6}|[a-zA-Z0-9]{1,5}[ -]?[a-zA-Z0-9]{1,5})$"><br>
+                <input name="titi" type="hidden" value="number" />
                 <input type="submit" value="Senda">
             </fieldset>
 
