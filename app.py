@@ -42,7 +42,7 @@ def get_api(id):
 @bottle.post('/<id>')
 def post_api(id):
     if len(list(bottle.request.forms)) > 0:
-
+        try:
             item = [bleach.clean(bottle.request.forms.get(b)) for b in [x for x in bottle.request.forms]]
             print(item)
             if len(item) == 1:
@@ -53,11 +53,14 @@ def post_api(id):
                 print(info)
                 info.update({'multi': True, 'id': id})
             return bottle.template('{}_p.html'.format(id), info)
-
+        except:
+            print('EXCEPT:--')
+            return bottle.template('error.html', {'multi': True, 'id': id})
     else:
         info = get_api_data(api[id])
         info['results']['multi'] = False
         return bottle.template('', info)
+
 
 @bottle.get('/s/<path:re:.*\.(png|jpg|json|css)>')
 def static(path):
