@@ -2,18 +2,17 @@
 # -*- coding: utf-8 -*-
 
 import bottle
-import json
-import urllib.request
+import requests
 import bleach
 from sys import argv
 api = {'car': 'http://apis.is/car?{}={}', 'company': 'http://apis.is/company?{}={}'}
 links = {'car': 'Car', 'company': 'Company'}
+headers = {'accept-version': '1', 'user-agent': 'Kristjaninfo/0.0.1'}
 
 
 def get_api_data(api_):
-    with urllib.request.urlopen(api_) as dump:
-        data = json.loads(dump.read().decode())
-    return data
+    data = requests.get(api_, headers=headers)
+    return data.json()
 
 
 @bottle.error(404)
@@ -42,12 +41,13 @@ def get_api(id):
 @bottle.post('/<id>')
 def post_api(id):
     try:
-        name = bottle.request.forms.name
-        titi = bottle.request.forms.titi
+        name = bleach.clean(bottle.request.forms.name)
+        titi = bleach.clean(bottle.request.forms.titi)
         print(name, titi)
         info = get_api_data(api[id].format(titi, name))
         print(get_api_data(api[id].format(titi, name)))
         info.update({'multi': True, 'id': id})
+        print(info['results'][0])
         return bottle.template('{}_p.html'.format(id), info)
     except:
         print('EXCEPT:--')
